@@ -30,7 +30,7 @@ struct ContentView: View {
                     .resizable()
                     .aspectRatio( contentMode: .fit)
                     .imageScale(.small)
-                    .padding(.leading, 25.0)
+                    .padding(.leading, 25)
                 Spacer()
                 HStack {
                     Spacer()
