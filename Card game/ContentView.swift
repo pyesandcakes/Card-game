@@ -15,8 +15,10 @@ struct ContentView: View {
     @State var aiScore = 0
     @State var playercardnum = 0
     @State var aicardnum = 0
+    @State private var showText = false
+    @State private var showDeal = true
+    
     var body: some View {
-        
         ZStack {
             Image("background-plain")
                 .resizable()
@@ -24,22 +26,50 @@ struct ContentView: View {
             Spacer()
             VStack {
                 Spacer()
-                Image("logo")
+                Image("card logo")
+                    .resizable()
+                    .aspectRatio( contentMode: .fit)
+                    .imageScale(.small)
                 Spacer()
                 HStack {
                     Spacer()
                     Image(playerCARD)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
                     Spacer()
                     Image(aiCARD)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
                     Spacer()
                 }
                 Spacer()
-                Button {
-                    Deal()
-                    AudioServicesPlaySystemSound(1104)
-                    AudioServicesPlaySystemSound(4095)
-                } label: {
-                    Image("button")
+                if showDeal {
+                    Button {
+                        Deal()
+                        AudioServicesPlaySystemSound(1104)
+                        AudioServicesPlaySystemSound(4095)
+                    } label: {
+                        Image("button")
+                    }
+                }
+                Spacer()
+                if showText {
+                        Button {
+                            restart()
+                            showText = false
+                        } label: {
+                            ZStack {
+                                Color.white
+                                    .cornerRadius(30)
+                                    .frame(width: 200, height: 40)
+                                    .shadow(color: .white, radius: 15)
+                                Text("GAME OVER")
+                                    .foregroundColor(.red)
+                                    .fontWeight(.bold)
+                                    .font(.title)
+                            }
+                        }
+                        .padding(.bottom, 12.0)
                 }
                 Spacer()
                 HStack {
@@ -67,7 +97,7 @@ struct ContentView: View {
                     }
                     Spacer()
                 }
-                Spacer()
+                //Spacer()
             }
         }
     }
@@ -85,10 +115,12 @@ struct ContentView: View {
             aiScore += 1
         }
         if playerScore == 10 {
-            restart()
+            showText = true
+            showDeal = false
         }
         if aiScore == 10 {
-            restart()
+            showText = true
+            showDeal = false
         }
     }
         
@@ -97,6 +129,7 @@ struct ContentView: View {
             aiScore = 0
             playerCARD = "back"
             aiCARD = "back"
+            showDeal = true
         }
     }
     
@@ -105,4 +138,3 @@ struct ContentView: View {
             ContentView()
         }
     }
-
